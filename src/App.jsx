@@ -5,7 +5,7 @@ import Navbar from './Component/Nav';
 import Home from './Pages/Home';
 import Login from './Component/Login';
 import Register from './Component/Register';
-import Performance from './Component/performance';
+import Performance from './Component/Performance';
 import ParticipateForm from './Component/ParticipateForm';
 import Rating from './Pages/Rating';
 import About from './Component/About';
