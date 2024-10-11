@@ -1,5 +1,8 @@
 
 import React from 'react';
+import Performance from '../Component/Performance';
+import About from '../Component/About';
+import Register from '../Component/Register';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
@@ -26,6 +29,13 @@ const Home = () => {
           alt="Nalanda College"
           className="mx-auto w-full max-w-md"
         />
+      </div>
+      
+      <div className='mt-20'>
+
+      <Performance></Performance>
+      <About></About>
+      <Register></Register>
       </div>
     </div>
   );
