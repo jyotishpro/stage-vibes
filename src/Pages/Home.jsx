@@ -1,5 +1,8 @@
 
 import React from 'react';
+import Performance from '../Component/Performance';
+import About from '../Component/About';
+import Register from '../Component/Register';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
@@ -8,7 +11,7 @@ const Home = () => {
       <h1 className="text-5xl font-bold mb-4">Welcome to Fresher's 2024</h1>
       <p className="text-lg mb-8">Multiple Universes, One Extravaganza.</p>
 
-      {/* Use Link instead of a */}
+  
       <Link
         to="/events"
         className="bg-white text-blue-900 px-6 py-3 rounded-full text-lg font-semibold shadow hover:bg-gray-200 transition duration-300"
@@ -26,6 +29,12 @@ const Home = () => {
           alt="Nalanda College"
           className="mx-auto w-full max-w-md"
         />
+      </div>
+      <div className='mt-20'>
+
+      <Performance></Performance>
+      <About></About>
+      <Register></Register>
       </div>
     </div>
   );
