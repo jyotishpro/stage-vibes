@@ -17,7 +17,7 @@ const ParticipateForm = () => {
   const saveUser = () => {
     const userData = { name, clas, roll, email, mobile, event };
 
-    fetch("http://localhost:3000/", {
+    fetch("https://deploy-mern-api.vercel.app", {
       method: "POST",
       headers: {
         "accept": "application/json",
