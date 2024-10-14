@@ -83,7 +83,7 @@ const ParticipateForm = () => {
         />
         <input 
           type="email" 
-          placeholder="Enter your email" 
+          placeholder="Enter your Gmail" 
           onChange={(e) => setEmail(e.target.value)} 
           value={email} 
           className="w-full p-2 border border-gray-300  bg-gray-600 text-white rounded focus:outline-none focus:ring focus:ring-blue-300" 
