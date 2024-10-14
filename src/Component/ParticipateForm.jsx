@@ -1,124 +1,117 @@
-import React, { useState } from 'react';
-import axios from 'axios'; // If you plan to submit data to an API
+import React, { useEffect, useState } from 'react';
+import axios from 'axios'; 
 import { useNavigate } from 'react-router-dom';
-
+import submitsucces from './Success'
 const ParticipateForm = () => {
-  const navigate = useNavigate();
   const [name, setName] = useState('');
-  const [className, setClassName] = useState('');
-  const [rollNo, setRollNo] = useState('');
+  const [clas, setClas] = useState('');
+  const [roll, setRoll] = useState('');
   const [email, setEmail] = useState('');
-  const [mobileNo, setMobileNo] = useState('');
-  const [eventType, setEventType] = useState('dance'); // Default selection
-  const [submitted, setSubmitted] = useState(false); // State to track submission
-  const [error, setError] = useState(''); // State to track errors
+  const [mobile, setMobile] = useState('');
+  const [event, setEvent] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const [data, setData] = useState([]);
 
-    const participantData = {
-      name,
-      class: className,
-      rollNo,
-      email,
-      mobileNo,
-      eventType,
-    };
+  const navigate = useNavigate();
 
-    try {
-      // Example POST request (you can adjust the URL as necessary)
-      await axios.post('/api/participants', participantData);
-      setSubmitted(true); // Set submitted to true on successful submission
-      setError(''); // Clear any previous error
-    } catch (error) {
-      console.error('Error submitting the form:', error);
-      setError('Failed to submit. Please try again.'); // Set error message on failure
-    }
+  const saveUser = () => {
+    const userData = { name, clas, roll, email, mobile, event };
+
+    fetch("http://localhost:3000/", {
+      method: "POST",
+      headers: {
+        "accept": "application/json",
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(userData)
+    })
+    .then((result) => result.json())
+    .then(() => {
+      setName('');
+      setClas('');
+      setRoll('');
+      setEmail('');
+      setMobile('');
+      setEvent('');
+
+     navigate('/Success')
+      
+    });
   };
 
-  // Render message if submitted
-  if (submitted) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-900">
-        <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md text-center">
-          <h2 className="text-3xl font-bold text-white mb-6">Congrats for participation in {eventType} event!</h2>
-          <p className="text-white">Best of luck for your performance!</p>
-          <button
-            className="mt-4 py-2 px-4 rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none"
-            onClick={() => navigate('/performance')} // Redirect to performance page
-          >
-            Back to Performance
-          </button>
-        </div>
-      </div>
-    );
-  }
+  const getList = () => {
+    fetch('http://localhost:3000/')
+      .then((result) => result.json())
+      .then((resp) => {
+        setData(resp);
+        console.log(resp);
+      });
+  };
 
-  function submitform() {
-    setSubmitted(!submitted)
-  }
+  useEffect(() => {
+    getList();
+  }, []);
+
+  const handleForm = (e) => {
+    e.preventDefault();
+  };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-900">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-3xl font-bold text-white text-center mb-6">Participation Form</h2>
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-indigo-500 focus:outline-none"
-          />
-          <input
-            type="text"
-            placeholder="Class"
-            value={className}
-            onChange={(e) => setClassName(e.target.value)}
-            className="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-indigo-500 focus:outline-none"
-          />
-          <input
-            type="text"
-            placeholder="Roll No"
-            value={rollNo}
-            onChange={(e) => setRollNo(e.target.value)}
-            className="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-indigo-500 focus:outline-none"
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-indigo-500 focus:outline-none"
-          />
-          <input
-            type="tel"
-            placeholder="Mobile No"
-            value={mobileNo}
-            onChange={(e) => setMobileNo(e.target.value)}
-            className="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-indigo-500 focus:outline-none"
-          />
-          {/* Event Type Selection */}
-          <select
-            value={eventType}
-            onChange={(e) => setEventType(e.target.value)}
-            className="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-indigo-500 focus:outline-none"
-          >
-            <option value="Dance">Dance</option>
-            <option value="Singing">Singing</option>
-            <option value="Comedy">Comedy</option>
-            <option value="Any Other">Any Other</option>
-          </select>
-          <button
-            type="submit"
-            className={`w-full py-2 rounded-md text-white font-semibold bg-indigo-600 hover:bg-indigo-700 focus:outline-none transition duration-300 ease-in-out`}
-          onClick={()=>submitform()}
-          >
-            Participate
-          </button>
-          {error && <p className="text-red-500 text-center">{error}</p>} {/* Display error if exists */}
-        </form>
-      </div>
+    <div className="flex justify-center items-center h-screen bg-gray-800">
+      <form onSubmit={handleForm} className="bg-gray-600 p-8 rounded-lg shadow-md w-full max-w-md space-y-4">
+        <h2 className="text-2xl font-semibold text-center">Participate in Events</h2>
+        <input 
+          type="text" 
+          placeholder="Enter your name" 
+          onChange={(e) => setName(e.target.value)} 
+          value={name} 
+          className="w-full p-2 border border-gray-300 bg-gray-600 text-white rounded focus:outline-none " 
+        />
+        <input 
+          type="text" 
+          placeholder="Enter your class" 
+          onChange={(e) => setClas(e.target.value)} 
+          value={clas} 
+          className="w-full p-2 border border-gray-300  bg-gray-600 text-white rounded focus:outline-none focus:ring focus:ring-blue-300" 
+        />
+        <input 
+          type="text" 
+          placeholder="Enter your roll" 
+          onChange={(e) => setRoll(e.target.value)} 
+          value={roll} 
+          className="w-full p-2 border border-gray-300  bg-gray-600 text-white rounded focus:outline-none focus:ring focus:ring-blue-300" 
+        />
+        <input 
+          type="email" 
+          placeholder="Enter your email" 
+          onChange={(e) => setEmail(e.target.value)} 
+          value={email} 
+          className="w-full p-2 border border-gray-300  bg-gray-600 text-white rounded focus:outline-none focus:ring focus:ring-blue-300" 
+        />
+        <input 
+          type="tel" 
+          placeholder="Enter your mobile" 
+          onChange={(e) => setMobile(e.target.value)} 
+          value={mobile} 
+          className="w-full p-2 border border-gray-300  bg-gray-600 text-white rounded focus:outline-none focus:ring focus:ring-blue-300" 
+        />
+        <select 
+          onChange={(e) => setEvent(e.target.value)} 
+          className="w-full p-2 border border-gray-300  bg-gray-600 text-white rounded focus:outline-none focus:ring focus:ring-blue-300"
+        >
+          <option value="Dance">Dance</option>
+          <option value="Song">Song</option>
+          <option value="Comedy">Comedy</option>
+          <option value="Anyother">AnyOther</option>
+        </select>
+        <button 
+          type="submit" 
+          onClick={saveUser} 
+          className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200"
+        >
+          Submit
+        </button>
+      </form>
     </div>
   );
 };
