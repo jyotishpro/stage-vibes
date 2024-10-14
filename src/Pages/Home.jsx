@@ -30,6 +30,9 @@ const Home = () => {
           className="mx-auto w-full max-w-md"
         />
       </div>
+      <Performance></Performance>
+      <About></About>
+      <Register></Register>
     </div>
   );
 };
