@@ -40,7 +40,7 @@ const ParticipateForm = () => {
   };
 
   const getList = () => {
-    fetch('http://localhost:3000/')
+    fetch('https://deploy-mern-api.vercel.app')
       .then((result) => result.json())
       .then((resp) => {
         setData(resp);
@@ -99,7 +99,7 @@ const ParticipateForm = () => {
           onChange={(e) => setEvent(e.target.value)} 
           className="w-full p-2 border border-gray-300  bg-gray-600 text-white rounded focus:outline-none focus:ring focus:ring-blue-300"
         >
-          <option value="Dance">Dance</option>
+          <option value="Dance">Dance(be part)</option>
           <option value="Song">Song</option>
           <option value="Comedy">Comedy</option>
           <option value="Anyother">AnyOther</option>
